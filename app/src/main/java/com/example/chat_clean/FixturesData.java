@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 /*
- * Created by Anton Bevza on 1/13/17.
+ * this is to store default data we will not use this in future only for demo purposes. this will be stored in the server
  */
 abstract class FixturesData {
 

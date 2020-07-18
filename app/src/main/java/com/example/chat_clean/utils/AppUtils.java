@@ -6,7 +6,7 @@ import android.widget.Toast;
 import androidx.annotation.StringRes;
 
 /*
- * Created by troy379 on 04.04.17.
+ * for showing toast messages could do without this might remove in fututre
  */
 public class AppUtils {
 

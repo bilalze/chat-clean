@@ -3,7 +3,7 @@ package com.example.chat_clean;
 import com.stfalcon.chatkit.commons.models.IUser;
 
 /*
- * Created by troy379 on 04.04.17.
+ * this is object class for user. we might not use this im not sure yet how the architecture will be
  */
 public class User implements IUser {
 

@@ -11,7 +11,7 @@ import com.example.chat_clean.R;
 import com.stfalcon.chatkit.utils.DateFormatter;
 
 /*
- * Created by troy379 on 05.04.17.
+ * Check incoming holder for comments both are identical
  */
 public class OutgoingButtonMessageViewHolder
         extends MessageHolders.IncomingTextMessageViewHolder<Message> {

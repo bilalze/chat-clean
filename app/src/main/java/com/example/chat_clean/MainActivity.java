@@ -36,6 +36,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+
+//please see messagefixtures and demomessagesactivity for more details
 public class MainActivity extends DemoMessagesActivity
         implements MessageInput.InputListener,
         MessageInput.AttachmentsListener,
@@ -48,17 +50,28 @@ public class MainActivity extends DemoMessagesActivity
     }
 
     private MessagesList messagesList;
-    private int _yDelta;
-    private GestureDetector mDetector;
-    private  View view1;
-    private int positioner1=0;
-    private ImageView imgs;
-    private RelativeLayout imgl;
+
+    //this is for old layout not using this anymore
+//    private int _yDelta;
+//    private GestureDetector mDetector;
+//    private  View view1;
+//    private int positioner1=0;
+//    private ImageView imgs;
+//    private RelativeLayout imgl;
+
+    //testing the voice message
     private MediaPlayer mp;
+
+    //used for new ui as a touch check
     private int check=0;
+
+    //the button content type id set it randomly to 5 for now
     private static final byte CONTENT_TYPE_BUTTON = 5;
+
+    //new ui swipe action
     private SwipeAction swipeAction;
 
+    //function to check whether touch was within the tab to resize
     private boolean isViewContains(View view, int rx, int ry) {
         int[] l = new int[2];
         view.getLocationOnScreen(l);
@@ -66,21 +79,24 @@ public class MainActivity extends DemoMessagesActivity
         int y = l[1];
         int w = view.getWidth();
         int h = view.getHeight();
-        Log.d("floatt1",""+y);
-        Log.d("floatt2",""+(y-h));
-        Log.d("floatt3",""+ry);
+//        Log.d("floatt1",""+y);
+//        Log.d("floatt2",""+(y-h));
+//        Log.d("floatt3",""+ry);
 
         if ( ry > y || ry < y - h*1.5) {
-            Log.d("floatt","false");
+//            Log.d("floatt","false");
             return false;
         }
-        Log.d("floatt","true");
+//        Log.d("floatt","true");
         return true;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //intercept touch event to first check whether it is inside the tab
         final OnSwipeTouchListener listener = new OnSwipeTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -97,17 +113,24 @@ public class MainActivity extends DemoMessagesActivity
                 return false;
             }
         };
+
+        //view tree observer to check for the eperator tab location after it has been drawn
         findViewById(R.id.separator).getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 findViewById(R.id.separator).getViewTreeObserver().removeOnGlobalLayoutListener( this );
 
+                //find location of tab
                 int[] location = new int[2];
                 findViewById(R.id.separator).getLocationOnScreen(location);
                 int x = location[0];
                 int y = location[1];
+
+                //set it as target hieght
                 final int targetHeight = y;
-                Log.d("TAG"," "+targetHeight);
+                //Log.d("TAG"," "+targetHeight);
+
+                //create swipe action and then add listner
                 swipeAction = new SwipeAction();
 
                 swipeAction.setSwipeActionListener(new SwipeActionListener() {
@@ -121,14 +144,13 @@ public class MainActivity extends DemoMessagesActivity
 //                        findViewById(R.id.separator).setY( v );
 //                        Log.d("floatV",""+v);
 //                        Log.d("floatV1",""+v1);
-                        int[] location = new int[2];
-                        findViewById(R.id.separator).getLocationOnScreen(location);
-                        Log.d("floatloc"," "+location[1]);
+                        //int[] location = new int[2];
+                        //findViewById(R.id.separator).getLocationOnScreen(location);
+                        //Log.d("floatloc"," "+location[1]);
 
-                        RelativeLayout relativeLayout = new RelativeLayout(getApplicationContext());
-// Create LayoutParams for it // Note 200 200 is width, height in pixels
+                        //RelativeLayout relativeLayout = new RelativeLayout(getApplicationContext());
+
                         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(findViewById(R.id.chater).getWidth(), targetHeight-(int) v );
-// Align bottom-right, and add bottom-margin
                         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                         params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
@@ -147,12 +169,17 @@ public class MainActivity extends DemoMessagesActivity
                     }
                 });
 
+                //set direction of swipe
                 swipeAction.setDirection( SwipeAction.DragDirection.Up );
+
+                //set steps and drag threshold
                 swipeAction.setSteps( new float[]{ targetHeight, targetHeight - targetHeight * 0.3f, 0 } );
                 swipeAction.setDragThreshold( 0.4f );
 
-
+                //add the swipe action to listner
                 listener.addAction( swipeAction );
+
+                //old ui not used now
 
 //        mDetector = new GestureDetector(this, new MyGestureListener());
 //        imgs=(ImageView)findViewById(R.id.imager);
@@ -194,9 +221,11 @@ public class MainActivity extends DemoMessagesActivity
 
             }
         });
+
+        //attach listener to main layout
         findViewById(R.id.root).setOnTouchListener( listener );
 
-
+        //initialise message adapter and input
         this.messagesList = (MessagesList)findViewById(R.id.messagesList) ;
         initAdapter();
 
@@ -226,6 +255,8 @@ public class MainActivity extends DemoMessagesActivity
     }
 
     private void initAdapter() {
+
+        //add button holder to message adapter
         MessageHolders holders = new MessageHolders()
                 .registerContentType(
                         CONTENT_TYPE_BUTTON,
@@ -235,6 +266,7 @@ public class MainActivity extends DemoMessagesActivity
                         R.layout.item_custom_outgoing_button_message,
                         this);
 
+        //initilaise message adapter
         super.messagesAdapter = new MessagesListAdapter<>(super.senderId, holders,super.imageLoader);
         super.messagesAdapter.enableSelectionMode(this);
         super.messagesAdapter.setLoadMoreListener(this);
@@ -248,10 +280,14 @@ public class MainActivity extends DemoMessagesActivity
                     }
                 });
         this.messagesList.setAdapter(super.messagesAdapter);
-        messagesAdapter.setOnMessageClickListener(new MessagesListAdapter.OnMessageClickListener<Message>() {
+
+        //testing ignore for now
+/*        messagesAdapter.setOnMessageClickListener(new MessagesListAdapter.OnMessageClickListener<Message>() {
             @Override
             public void onMessageClick(Message message) {
-/*                if(message.getImageUrl() != null){
+
+
+                if(message.getImageUrl() != null){
                  imgs.setImageDrawable(LoadImageFromWebOperations(message.getImageUrl()));
                  imgl.setVisibility(View.VISIBLE);
                     positioner1=2;
@@ -270,11 +306,12 @@ public class MainActivity extends DemoMessagesActivity
                         e.printStackTrace();
                     }
                     mp.start();
-                }*/
+                }
             }
-        });
+        });*/
     }
-    public static Drawable LoadImageFromWebOperations(String url) {
+        //testing ignore for now
+/*    public static Drawable LoadImageFromWebOperations(String url) {
         try {
             InputStream is = (InputStream) new URL(url).getContent();
             Drawable d = Drawable.createFromStream(is, "src name");
@@ -282,7 +319,7 @@ public class MainActivity extends DemoMessagesActivity
         } catch (Exception e) {
             return null;
         }
-    }
+    }*/
     @Override
     public void onStartTyping() {
         Log.v("Typing listener", getString(R.string.start_typing_status));
@@ -293,6 +330,7 @@ public class MainActivity extends DemoMessagesActivity
         Log.v("Typing listener", getString(R.string.stop_typing_status));
     }
 
+    //setup dialog to add image or button
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
         switch (i) {
@@ -307,7 +345,7 @@ public class MainActivity extends DemoMessagesActivity
                 break;
         }
     }
-
+    //check if button message
     @Override
     public boolean hasContentFor(Message message, byte type) {
         switch (type) {
@@ -318,21 +356,18 @@ public class MainActivity extends DemoMessagesActivity
         }
         return false;
     }
+
+    //on button click method
     public void button_method(View v){
 
         messagesAdapter.addToStart(
                 MessagesFixtures.getImageMessage2(),true);
     }
-//    @Override
-//    protected void onCreate(Bundle arg0) {
-//        super.onCreate(arg0);
-//        setContentView(R.layout.activity_main);
-//        findViewById(R.id.separator).setOnTouchListener(this);
-//    }
 
 
 
-    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+    // old ui not using now
+/*    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
         public boolean onDown(MotionEvent event) {
@@ -391,29 +426,33 @@ public class MainActivity extends DemoMessagesActivity
             }
             return true;
         }
-    }
+    }*/
+
+
 
     @Override
     public void onBackPressed() {
+//        testing ignore
+/*        if(positioner1==1){
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view1.getLayoutParams();
+            layoutParams.bottomMargin =300;
+            layoutParams.topMargin = -layoutParams.bottomMargin;
+            view1.setLayoutParams(layoutParams);
+            view1.animate().translationY(300).setDuration(500);
+            findViewById(R.id.root).invalidate();
+            positioner1=0;
 
-//        if(positioner1==1){
-//            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view1.getLayoutParams();
-//            layoutParams.bottomMargin =300;
-//            layoutParams.topMargin = -layoutParams.bottomMargin;
-//            view1.setLayoutParams(layoutParams);
-//            view1.animate().translationY(300).setDuration(500);
-//            findViewById(R.id.root).invalidate();
-//            positioner1=0;
-//
-//        }
-//        else if(positioner1==2){
-//            imgl.setVisibility(View.GONE);
-//            positioner1=0;
-//        }
+        }
+        else if(positioner1==2){
+            imgl.setVisibility(View.GONE);
+            positioner1=0;
+        }*/
+
 
         if(swipeAction.getStep()==2){
             swipeAction.collapse();
         }
+
         else {
             if (mp != null) {
                 try {

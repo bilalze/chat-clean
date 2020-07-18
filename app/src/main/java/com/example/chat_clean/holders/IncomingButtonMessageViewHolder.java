@@ -11,14 +11,17 @@ import com.stfalcon.chatkit.messages.MessageHolders;
 import com.stfalcon.chatkit.utils.DateFormatter;
 
 /*
- * Created by troy379 on 05.04.17.
+ * Holder for the button message type have to create one for the incoming and outgoing message both are same as of now
  */
 public class IncomingButtonMessageViewHolder
         extends MessageHolders.IncomingTextMessageViewHolder<Message> {
-
+    //any text we would like to add
     private TextView Text1;
+    //image to show with the button
     private ImageView Image1;
+    //the time the message was sent
     private TextView tvTime;
+    //the button
     public Button button1;
 
     public IncomingButtonMessageViewHolder(View itemView, Object payload) {
@@ -32,6 +35,7 @@ public class IncomingButtonMessageViewHolder
     @Override
     public void onBind(Message message) {
         super.onBind(message);
+        //i set the text here for testing in future we can set it programatically from the server
         Text1.setText("How you doin?");
 
         tvTime.setText(DateFormatter.format(message.getCreatedAt(), DateFormatter.Template.TIME));

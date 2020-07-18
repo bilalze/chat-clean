@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /*
- * Created by troy379 on 12.12.16.
+ * this class is used to handl all the diffrent type of messages
  */
 public final class MessagesFixtures extends FixturesData {
     private MessagesFixtures() {
@@ -13,6 +13,7 @@ public final class MessagesFixtures extends FixturesData {
     }
 
     public static Message getImageMessage() {
+        //the id in get user decides whether user or sender(1 for user and 0 for sender)
         Message message = new Message("1", getUser("1"), null);
         message.setImage(new Message.Image(getRandomImage()));
         return message;
@@ -30,7 +31,7 @@ public final class MessagesFixtures extends FixturesData {
 //        return message;
 //    }
     public static Message getButton() {
-        Message message = new Message("1", getUser("1"), null);
+        Message message = new Message("1", getUser("0"), null);
         message.setButton1(new Message.Button1("Example.com"));
         //message.se(new Message.Voice("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", rnd.nextInt(200) + 30));
         return message;

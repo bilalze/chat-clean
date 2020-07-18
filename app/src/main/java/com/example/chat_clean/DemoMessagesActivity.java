@@ -21,26 +21,30 @@ import java.util.Date;
 import java.util.Locale;
 
 /*
- * Created by troy379 on 04.04.17.
+ * this is the base messaging activity that all others extend
  */
 public abstract class DemoMessagesActivity extends AppCompatActivity
         implements MessagesListAdapter.SelectionListener,
         MessagesListAdapter.OnLoadMoreListener {
 
     private static final int TOTAL_MESSAGES_COUNT = 100;
-
+    //sender id
     protected final String senderId = "0";
+    //image loader for image messages
     protected ImageLoader imageLoader;
+    //adpter for the message list
     protected MessagesListAdapter<Message> messagesAdapter;
-
+    //menu for long press of the messages
     private Menu menu;
+    //count of the messages selected by long pressing
     private int selectionCount;
+    //date
     private Date lastLoadedDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //setup image loader using url
         imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, String url, Object payload) {
@@ -56,6 +60,7 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
     }
 
     @Override
+    //for creating long press menu
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         getMenuInflater().inflate(R.menu.chat_actions_menu, menu);
@@ -64,6 +69,7 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
     }
 
     @Override
+    //how the long press menu works
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
@@ -87,6 +93,7 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
     }
 
     @Override
+    //load previous messages
     public void onLoadMore(int page, int totalItemsCount) {
         Log.i("TAG", "onLoadMore: " + page + " " + totalItemsCount);
 //        if (totalItemsCount < TOTAL_MESSAGES_COUNT) {
@@ -100,7 +107,7 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
         menu.findItem(R.id.action_delete).setVisible(count > 0);
         menu.findItem(R.id.action_copy).setVisible(count > 0);
     }
-
+    //demo function for loading random messages
     protected void loadMessages() {
         new Handler().postDelayed(new Runnable() { //imitation of internet connection
             @Override
@@ -111,7 +118,7 @@ public abstract class DemoMessagesActivity extends AppCompatActivity
             }
         }, 1000);
     }
-
+    //format of messages adding date and time
     private MessagesListAdapter.Formatter<Message> getMessageStringFormatter() {
         return new MessagesListAdapter.Formatter<Message>() {
             @Override

@@ -6,11 +6,11 @@ import com.stfalcon.chatkit.commons.models.MessageContentType;
 import java.util.Date;
 
 /*
- * Created by troy379 on 04.04.17.
+ * this is message object class
  */
 public class Message implements IMessage,
         MessageContentType.Image, /*this is for default image messages implementation*/
-        MessageContentType /*and this one is for custom content type (in this case - voice message)*/ {
+        MessageContentType /*and this one is for custom content type (in this case - button message)*/ {
 
     private String id;
     private String text;
@@ -56,9 +56,14 @@ public class Message implements IMessage,
         return image == null ? null : image.url;
     }
 
+
+
     public Voice getVoice() {
         return voice;
     }
+
+
+
     public Button1 getButton1() {
         return button1;
     }
@@ -79,12 +84,21 @@ public class Message implements IMessage,
         this.image = image;
     }
 
+
+
+
     public void setVoice(Voice voice) {
         this.voice = voice;
     }
+
+
+
     public void setButton1(Button1 button1) {
         this.button1 = button1;
     }
+
+
+
 
     public static class Image {
 
@@ -94,6 +108,9 @@ public class Message implements IMessage,
             this.url = url;
         }
     }
+
+
+
 
     public static class Voice {
 
@@ -113,6 +130,11 @@ public class Message implements IMessage,
             return duration;
         }
     }
+
+
+
+
+
     public static class Button1 {
 
         private String url;
