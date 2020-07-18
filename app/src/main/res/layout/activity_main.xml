@@ -1,0 +1,88 @@
+<!--<FrameLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:id="@+id/rooter"-->
+<!--    android:layout_height="match_parent">-->
+
+
+
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:id="@+id/root"
+        android:layout_height="match_parent"
+        android:background="@color/blue">
+
+        <TextView
+            android:background="@drawable/drag_background"
+            android:id="@+id/separator"
+            android:text="Drag here to resize"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_above="@+id/chater"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:padding="16dp"
+            android:id="@+id/chater"
+            android:background="@color/white"
+            android:layout_height="0dp" >
+
+            <com.stfalcon.chatkit.messages.MessagesList
+                android:id="@+id/messagesList"
+                android:layout_width="match_parent"
+                app:textAutoLink="all"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/input"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_above="@+id/input"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/gray_light"/>
+
+            <com.stfalcon.chatkit.messages.MessageInput
+                android:id="@+id/input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                app:inputHint="@string/hint_enter_a_message"
+                app:showAttachmentButton="true"/>
+
+
+
+
+
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:id="@+id/imgl"-->
+<!--        android:visibility="gone"-->
+<!--        android:layout_height="match_parent">-->
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@color/black"-->
+<!--            />-->
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:id="@+id/imager"-->
+<!--            android:layout_height="match_parent">-->
+
+<!--        </ImageView>-->
+<!--    </RelativeLayout>-->
+        </RelativeLayout>
+    </RelativeLayout>
+
+<!--</FrameLayout>-->
+
