@@ -14,13 +14,13 @@
         android:layout_width="match_parent"
         android:id="@+id/root"
         android:layout_height="match_parent"
-        android:background="@color/blue">
+        android:background="@drawable/tester">
 
         <TextView
             android:background="@drawable/drag_background"
             android:id="@+id/separator"
             android:text="Drag here to resize"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:gravity="center"
             android:layout_above="@+id/chater"
             android:layout_width="match_parent"
